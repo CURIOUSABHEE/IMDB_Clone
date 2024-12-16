@@ -8,7 +8,7 @@ function Banner() {
         backgroundImage: `url(https://shorturl.at/dv1Th)`,
       }}
     >
-      <div className="text-white text-2xl text-center bg-blue-900 w-full  p-2">
+      <div className="text-white text-2xl text-center bg-gray-900/40 w-full  p-2">
         Avengers Assemble
       </div>
     </div>
