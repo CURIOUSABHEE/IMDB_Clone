@@ -1,13 +1,25 @@
 import React from "react";
 import { useState } from "react";
 
-function Watchlist({ watchlist }) {
+function Watchlist({ watchlist, setWatchlist }) {
   const [search, setSearch] = useState(" ");
 
   let handleSearch = (e) => {
     setSearch(e.target.value);
   };
 
+  let sortIncreasing = () => {
+    let sortedIncreasing = watchlist.sort((movieA, movieB) => {
+      return movieA.vote_average - movieB.vote_average;
+    });
+    setWatchlist([...sortedIncreasing]);
+  };
+  let sortDecreasing = () => {
+    let sortedDecreasing = watchlist.sort((movieA, movieB) => {
+      return movieB.vote_average - movieA.vote_average;
+    });
+    setWatchlist([...sortedDecreasing]);
+  };
   return (
     <>
       <div className="flex justify-center m-5 gap-10">
@@ -34,24 +46,30 @@ function Watchlist({ watchlist }) {
         />
       </div>
 
-      <div class="relative overflow-x-auto m-5">
-        <table class="w-full text-sm text-left  text-gray-800 dark:text-gray-400">
-          <thead class="text-xs text-gray-600 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+      <div className="relative overflow-x-auto m-5">
+        <table className="w-full text-sm text-left  text-gray-800 dark:text-gray-400">
+          <thead className="text-xs text-gray-600 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Name
               </th>
-              <th scope="col" class="px-6 py-3">
-                <div class="flex justify-center items-center gap-2">
-                  <i class="fa-solid fa-arrow-up"></i>
+              <th scope="col" className="px-6 py-3">
+                <div className="flex justify-center items-center gap-2">
+                  <i
+                    onClick={sortIncreasing}
+                    className="fa-solid fa-arrow-up"
+                  ></i>
                   <h3>Rating</h3>
-                  <i class="fa-solid fa-arrow-down"></i>
+                  <i
+                    onClick={sortDecreasing}
+                    className="fa-solid fa-arrow-down"
+                  ></i>
                 </div>
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Popularity
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Genre
               </th>
               <th></th>
