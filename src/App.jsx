@@ -22,6 +22,7 @@ function App() {
     });
     setWatchlist(filteredwatchlist);
   };
+
   useEffect(() => {
     let moviesFromLocalStorage = localStorage.getItem("movieApp");
     if (!moviesFromLocalStorage) {
@@ -29,6 +30,7 @@ function App() {
     }
     setWatchlist(JSON.parse(moviesFromLocalStorage));
   }, []);
+
   return (
     <>
       <BrowserRouter>

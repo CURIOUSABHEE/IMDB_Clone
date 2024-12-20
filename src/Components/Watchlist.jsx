@@ -1,6 +1,13 @@
 import React from "react";
+import { useState } from "react";
 
 function Watchlist({ watchlist }) {
+  const [search, setSearch] = useState(" ");
+
+  let handleSearch = (e) => {
+    setSearch(e.target.value);
+  };
+
   return (
     <>
       <div className="flex justify-center m-5 gap-10">
@@ -20,6 +27,7 @@ function Watchlist({ watchlist }) {
 
       <div className="flex justify-center m-10">
         <input
+          onChange={handleSearch}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-2xl rounded-sm w-half p-2 "
           type="text"
           placeholder="Search Movies"
@@ -50,33 +58,39 @@ function Watchlist({ watchlist }) {
             </tr>
           </thead>
           <tbody>
-            {watchlist.map((movieObj) => {
-              return (
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td
-                    scope="row"
-                    className="flex items-center gap-5 px-6 py-4 pt font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    <img
-                      src={`https://image.tmdb.org/t/p/w500${movieObj.poster_path}`}
-                      alt="Poster"
-                      style={{ width: "70px", height: "70px" }}
-                    />
-                    <h3>{movieObj.original_title}</h3>
-                  </td>
+            {watchlist
+              .filter((movieObj) => {
+                return movieObj.original_title
+                  .toLowerCase()
+                  .includes(search.toLowerCase());
+              })
+              .map((movieObj) => {
+                return (
+                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <td
+                      scope="row"
+                      className="flex items-center gap-5 px-6 py-4 pt font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      <img
+                        src={`https://image.tmdb.org/t/p/w500${movieObj.poster_path}`}
+                        alt="Poster"
+                        style={{ width: "70px", height: "70px" }}
+                      />
+                      <h3>{movieObj.original_title}</h3>
+                    </td>
 
-                  <td class="px-6 py-4">
-                    <div class="flex justify-center items-center gap-2">
-                      <i class="fa-solid fa-star"></i>
-                      {movieObj.vote_average}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">{movieObj.popularity}</td>
-                  <td className="px-6 py-4">Actions</td>
-                  <td className="px-6 py-4 text-red-600 "> Delete </td>
-                </tr>
-              );
-            })}
+                    <td class="px-6 py-4">
+                      <div class="flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-star"></i>
+                        {movieObj.vote_average}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">{movieObj.popularity}</td>
+                    <td className="px-6 py-4">Actions</td>
+                    <td className="px-6 py-4 text-red-600 "> Delete </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>
