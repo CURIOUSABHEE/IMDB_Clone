@@ -1,6 +1,6 @@
 import React from "react";
 
-function Watchlist() {
+function Watchlist({ watchlist }) {
   return (
     <>
       <div className="flex justify-center m-5 gap-10">
@@ -50,26 +50,33 @@ function Watchlist() {
             </tr>
           </thead>
           <tbody>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <td
-                scope="row"
-                className="flex items-center gap-5 px-6 py-4 pt font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                <img
-                  src="https://i.etsystatic.com/41716657/r/il/003c1d/4814626793/il_fullxfull.4814626793_sr8e.jpg"
-                  alt="Poster"
-                  style={{ width: "70px", height: "70px" }}
-                />
-                <h3>Dragons</h3>
-              </td>
+            {watchlist.map((movieObj) => {
+              return (
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <td
+                    scope="row"
+                    className="flex items-center gap-5 px-6 py-4 pt font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    <img
+                      src={`https://image.tmdb.org/t/p/w500${movieObj.poster_path}`}
+                      alt="Poster"
+                      style={{ width: "70px", height: "70px" }}
+                    />
+                    <h3>{movieObj.original_title}</h3>
+                  </td>
 
-              <td class="px-6 py-4">
-                <div class="flex justify-center items-center gap-2">9.5</div>
-              </td>
-              <td className="px-6 py-4 ">9.5</td>
-              <td className="px-6 py-4">Actions</td>
-              <td className="px-6 py-4 text-red-600 "> Delete </td>
-            </tr>
+                  <td class="px-6 py-4">
+                    <div class="flex justify-center items-center gap-2">
+                      <i class="fa-solid fa-star"></i>
+                      {movieObj.vote_average}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">{movieObj.popularity}</td>
+                  <td className="px-6 py-4">Actions</td>
+                  <td className="px-6 py-4 text-red-600 "> Delete </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
