@@ -5,6 +5,9 @@ function Watchlist() {
     <>
       <div className="flex justify-center m-5 gap-10">
         <div className="bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 hover:text-black">
+          All Genres
+        </div>
+        <div className="bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 hover:text-black">
           Action
         </div>
         <div className="bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 hover:text-black">
@@ -63,8 +66,8 @@ function Watchlist() {
               <td class="px-6 py-4">
                 <div class="flex justify-center items-center gap-2">9.5</div>
               </td>
-              <td className="px-6 py-4 ">Action</td>
-              <td className="px-6 py-4">$2999</td>
+              <td className="px-6 py-4 ">9.5</td>
+              <td className="px-6 py-4">Actions</td>
               <td className="px-6 py-4 text-red-600 "> Delete </td>
             </tr>
           </tbody>
