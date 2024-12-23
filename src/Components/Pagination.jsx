@@ -6,14 +6,14 @@ function Pagination({ pageNo, handlePrev, handleNxt }) {
       <div>
         <i
           onClick={handlePrev}
-          class="fa-solid fa-arrow-left fa-lg py-5 phhover:cursor-pointer hover:text-red-900"
+          className="fa-solid fa-arrow-left fa-lg py-5 phhover:cursor-pointer hover:text-red-900"
         ></i>
       </div>
       <h3 className="text-2xl  hover:text-red-900  ">{pageNo}</h3>
       <div>
         <i
           onClick={handleNxt}
-          class="fa-solid fa-arrow-right fa-lg py-5 hover:cursor-pointer hover:text-red-900"
+          className="fa-solid fa-arrow-right fa-lg py-5 hover:cursor-pointer hover:text-red-900"
         ></i>
       </div>
     </div>

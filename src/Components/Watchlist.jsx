@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import genreids from "../Utility/genre";
 
 function Watchlist({ watchlist, setWatchlist }) {
   const [search, setSearch] = useState(" ");
@@ -8,18 +9,26 @@ function Watchlist({ watchlist, setWatchlist }) {
     setSearch(e.target.value);
   };
 
+  const handleDelete = (movieId) => {
+    const updatedWatchlist = watchlist.filter((movie) => movie.id !== movieId);
+    setWatchlist(updatedWatchlist);
+    localStorage.setItem("movieApp", JSON.stringify(updatedWatchlist));
+  };
+
   let sortIncreasing = () => {
     let sortedIncreasing = watchlist.sort((movieA, movieB) => {
       return movieA.vote_average - movieB.vote_average;
     });
     setWatchlist([...sortedIncreasing]);
   };
+
   let sortDecreasing = () => {
     let sortedDecreasing = watchlist.sort((movieA, movieB) => {
       return movieB.vote_average - movieA.vote_average;
     });
     setWatchlist([...sortedDecreasing]);
   };
+
   return (
     <>
       <div className="flex justify-center m-5 gap-10">
@@ -84,7 +93,7 @@ function Watchlist({ watchlist, setWatchlist }) {
               })
               .map((movieObj) => {
                 return (
-                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <td
                       scope="row"
                       className="flex items-center gap-5 px-6 py-4 pt font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -97,15 +106,23 @@ function Watchlist({ watchlist, setWatchlist }) {
                       <h3>{movieObj.original_title}</h3>
                     </td>
 
-                    <td class="px-6 py-4">
-                      <div class="flex justify-center items-center gap-2">
-                        <i class="fa-solid fa-star"></i>
+                    <td className="px-6 py-4">
+                      <div className="flex justify-center items-center gap-2">
+                        <i className="fa-solid fa-star"></i>
                         {movieObj.vote_average}
                       </div>
                     </td>
                     <td className="px-6 py-4">{movieObj.popularity}</td>
-                    <td className="px-6 py-4">Actions</td>
-                    <td className="px-6 py-4 text-red-600 "> Delete </td>
+                    <td className="px-6 py-4">
+                      {genreids[movieObj.genre_ids[0]]}
+                    </td>
+                    <td
+                      onClick={() => handleDelete(movieObj.id)}
+                      className="px-6 py-4 text-red-600 "
+                    >
+                      {" "}
+                      Delete{" "}
+                    </td>
                   </tr>
                 );
               })}

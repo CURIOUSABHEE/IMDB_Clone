@@ -9,26 +9,41 @@ import { useEffect, useState } from "react";
 function App() {
   let [watchlist, setWatchlist] = useState([]);
 
+  // let handleAddtoWatchList = (movieObj) => {
+  //   let newWatchlist = [...watchlist, movieObj];
+  //   localStorage.setItem("movieApp", JSON.stringify(newWatchlist));
+  //   setWatchlist(newWatchlist);
+  //   console.log(newWatchlist);
+  // };
+
   let handleAddtoWatchList = (movieObj) => {
-    let newWatchlist = [...watchlist, movieObj];
-    localStorage.setItem("movieApp", JSON.stringify(newWatchlist));
-    setWatchlist(newWatchlist);
-    console.log(newWatchlist);
+    console.log("Adding movie:", movieObj);
+    if (!watchlist.some((movie) => movie.id === movieObj.id)) {
+      let newWatchlist = [...watchlist, movieObj];
+      setWatchlist(newWatchlist);
+      localStorage.setItem("movieApp", JSON.stringify(newWatchlist));
+      console.log("Watchlist updated:", newWatchlist);
+    } else {
+      console.log("Movie already in watchlist:", movieObj);
+    }
   };
 
   let handleRemoveFromWatchlist = (movieObj) => {
     let filteredwatchlist = watchlist.filter((movie) => {
-      return movie.id != movieObj.id;
+      return movie.id !== movieObj.id;
     });
     setWatchlist(filteredwatchlist);
   };
 
   useEffect(() => {
-    let moviesFromLocalStorage = localStorage.getItem("movieApp");
-    if (!moviesFromLocalStorage) {
-      return;
+    try {
+      let moviesFromLocalStorage = localStorage.getItem("movieApp");
+      if (moviesFromLocalStorage) {
+        setWatchlist(JSON.parse(moviesFromLocalStorage));
+      }
+    } catch (error) {
+      console.error("Error parsing localStorage data", error);
     }
-    setWatchlist(JSON.parse(moviesFromLocalStorage));
   }, []);
 
   return (
