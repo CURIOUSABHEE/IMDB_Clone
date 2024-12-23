@@ -33,6 +33,7 @@ function App() {
       return movie.id !== movieObj.id;
     });
     setWatchlist(filteredwatchlist);
+    localStorage.setItem("movieApp", JSON.stringify(filteredwatchlist));
   };
 
   useEffect(() => {

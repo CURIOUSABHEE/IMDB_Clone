@@ -9,10 +9,12 @@ function Watchlist({ watchlist, setWatchlist }) {
     setSearch(e.target.value);
   };
 
-  const handleDelete = (movieId) => {
-    const updatedWatchlist = watchlist.filter((movie) => movie.id !== movieId);
-    setWatchlist(updatedWatchlist);
-    localStorage.setItem("movieApp", JSON.stringify(updatedWatchlist));
+  let handleDelete = (id) => {
+    let filteredWatchlist = watchlist.filter((movieObj) => {
+      return movieObj.id !== id;
+    });
+    setWatchlist(filteredWatchlist);
+    localStorage.setItem("movieApp", JSON.stringify(filteredWatchlist));
   };
 
   let sortIncreasing = () => {
