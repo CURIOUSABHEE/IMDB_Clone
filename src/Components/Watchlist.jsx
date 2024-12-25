@@ -1,21 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import genreids from "../Utility/genre";
 
-function Watchlist({ watchlist, setWatchlist }) {
+function Watchlist({ watchlist, setWatchlist, handleRemoveFromWatchlist }) {
   const [search, setSearch] = useState(" ");
-
+  const [genreList, setGenreList] = useState(["All Genres"]);
+  const [currGenre, setCurrGenre] = useState(["All Genres"]);
   let handleSearch = (e) => {
     setSearch(e.target.value);
   };
-
-  let handleDelete = (id) => {
-    let filteredWatchlist = watchlist.filter((movieObj) => {
-      return movieObj.id !== id;
-    });
-    setWatchlist(filteredWatchlist);
-    localStorage.setItem("movieApp", JSON.stringify(filteredWatchlist));
+  let handleFilter = (genre) => {
+    setCurrGenre(genre);
   };
+  // let handleDelete = (id) => {
+  //   let filteredWatchlist = watchlist.filter((movieObj) => {
+  //     return movieObj.id !== id;
+  //   });
+  //   setWatchlist(filteredWatchlist);
+  //
+  // };
 
   let sortIncreasing = () => {
     let sortedIncreasing = watchlist.sort((movieA, movieB) => {
@@ -31,21 +34,31 @@ function Watchlist({ watchlist, setWatchlist }) {
     setWatchlist([...sortedDecreasing]);
   };
 
+  useEffect(() => {
+    let temp = watchlist.map((movieObj) => {
+      return genreids[movieObj.genre_ids[0]];
+    });
+    temp = [...new Set(temp)];
+    setGenreList(["All Genres", ...temp]);
+  }, [watchlist]);
+
   return (
     <>
       <div className="flex justify-center m-5 gap-10">
-        <div className="bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 hover:text-black">
-          All Genres
-        </div>
-        <div className="bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 hover:text-black">
-          Action
-        </div>
-        <div className="bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 hover:text-black">
-          Crime
-        </div>
-        <div className="bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 hover:text-black">
-          Horror
-        </div>
+        {genreList.map((genre) => {
+          return (
+            <div
+              onClick={() => handleFilter(genre)}
+              className={
+                currGenre === genre
+                  ? "bg-blue-500 text-white px-6 py-3 rounded-md"
+                  : "bg-gray-500 text-white px-6 py-3 rounded-md"
+              }
+            >
+              {genre}
+            </div>
+          );
+        })}
       </div>
 
       <div className="flex justify-center m-10">
@@ -67,12 +80,12 @@ function Watchlist({ watchlist, setWatchlist }) {
               <th scope="col" className="px-6 py-3">
                 <div className="flex justify-center items-center gap-2">
                   <i
-                    onClick={sortIncreasing}
+                    onClick={sortDecreasing}
                     className="fa-solid fa-arrow-up"
                   ></i>
                   <h3>Rating</h3>
                   <i
-                    onClick={sortDecreasing}
+                    onClick={sortIncreasing}
                     className="fa-solid fa-arrow-down"
                   ></i>
                 </div>
@@ -88,6 +101,13 @@ function Watchlist({ watchlist, setWatchlist }) {
           </thead>
           <tbody>
             {watchlist
+              .filter((movieObj) => {
+                if (currGenre === "All Genres") {
+                  return true;
+                } else {
+                  return genreids[movieObj.genre_ids[0]] === currGenre;
+                }
+              })
               .filter((movieObj) => {
                 return movieObj.original_title
                   .toLowerCase()
@@ -119,7 +139,7 @@ function Watchlist({ watchlist, setWatchlist }) {
                       {genreids[movieObj.genre_ids[0]]}
                     </td>
                     <td
-                      onClick={() => handleDelete(movieObj.id)}
+                      onClick={() => handleRemoveFromWatchlist(movieObj)}
                       className="px-6 py-4 text-red-600 "
                     >
                       {" "}

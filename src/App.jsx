@@ -69,7 +69,11 @@ function App() {
             path="/watchlist"
             element={
               <>
-                <Watchlist watchlist={watchlist} setWatchlist={setWatchlist} />
+                <Watchlist
+                  watchlist={watchlist}
+                  setWatchlist={setWatchlist}
+                  handleRemoveFromWatchlist={handleRemoveFromWatchlist}
+                />
               </>
             }
           />
